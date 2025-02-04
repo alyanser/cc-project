@@ -1,8 +1,10 @@
 #include <fstream>
 #include <string>
 #include <iostream>
+#include <sstream>
 
 #include "scanner.h"
+#include "parser.h"
 
 int main(int argc, char ** argv) {
 
@@ -18,8 +20,12 @@ int main(int argc, char ** argv) {
 		return 1;
 	}
 
-	std::istreambuf_iterator<char> start(source_code), end;
-	std::string input(start, end);
+	const auto input = [&source_code]() {
+		std::stringstream iss;
+		iss << source_code.rdbuf();
+		return iss.str();
+	}();
 
 	Scanner scanner(input);
+	parse(scanner);
 }
