@@ -8,7 +8,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 add_executable(${PROJECT_NAME}
     src/main.cc
-    src/parser.cc
     src/scanner.cc
 )
 

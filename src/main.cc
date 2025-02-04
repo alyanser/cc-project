@@ -1,6 +1,8 @@
-#include "parser.h"
 #include <fstream>
 #include <string>
+#include <iostream>
+
+#include "scanner.h"
 
 int main(int argc, char ** argv) {
 
@@ -20,6 +22,4 @@ int main(int argc, char ** argv) {
 	std::string input(start, end);
 
 	Scanner scanner(input);
-	Parser parser(scanner);
-	parser.parse();
 }

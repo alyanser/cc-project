@@ -2,101 +2,105 @@
 #include <iostream>
 #include <unordered_map>
 
-std::unordered_map<std::string, TokenType> Scanner::keywords = {
-    {"int", TokenType::TYPE}, {"float", TokenType::TYPE}, {"for", TokenType::FOR}, {"agar", TokenType::IF}, {"magar", TokenType::ELSE}};
-
-Scanner::Scanner(const std::string & input) : input(input), currentChar(input.empty() ? '\0' : input[0]) {
-}
-
 void Scanner::advance() {
-	position++;
-	currentChar = (position < input.size()) ? input[position] : '\0';
+	position_++;
+	current_char_ = (position_ < input_.size()) ? input_[position_] : '\0';
 }
 
-void Scanner::skipWhitespace() {
-	while(std::isspace(currentChar)) {
+void Scanner::skip_whitespace() {
+
+	while(std::isspace(current_char_)) {
 		advance();
 	}
 }
 
 Token Scanner::nextToken() {
-	skipWhitespace();
+	skip_whitespace();
 
-	if(std::isalpha(currentChar)) {
-		return identifierOrKeyword();
+	if(std::isalpha(current_char_)) {
+		return identifier_or_keyword();
 	}
 
-	if(std::isdigit(currentChar)) {
+	if(std::isdigit(current_char_)) {
 		return number();
 	}
 
-	switch(currentChar) {
+	switch(current_char_) {
+
 	case '<':
-		return compareToken();
+		return compare_token();
 	case '>':
 		advance();
 		return Token(TokenType::GT);
 	case '+':
-		return singleCharToken(TokenType::PLUS);
+		return single_char_token(TokenType::PLUS);
 	case '-':
-		return singleCharToken(TokenType::MINUS);
+		return single_char_token(TokenType::MINUS);
 	case '*':
-		return singleCharToken(TokenType::MULTIPLY);
+		return single_char_token(TokenType::MULTIPLY);
 	case '/':
-		return singleCharToken(TokenType::DIVIDE);
+		return single_char_token(TokenType::DIVIDE);
 	case '{':
-		return singleCharToken(TokenType::LBRACE);
+		return single_char_token(TokenType::LBRACE);
 	case '}':
-		return singleCharToken(TokenType::RBRACE);
+		return single_char_token(TokenType::RBRACE);
 	case ';':
-		return singleCharToken(TokenType::SEMICOLON);
+		return single_char_token(TokenType::SEMICOLON);
 	case ',':
-		return singleCharToken(TokenType::COMMA);
+		return single_char_token(TokenType::COMMA);
+	case '(':
+		return single_char_token(TokenType::LPAREN);
+	case ')':
+		return single_char_token(TokenType::RPAREN);
 	case '=':
 		advance();
 		return Token(TokenType::EQUAL);
 	case '\0':
 		return Token(TokenType::END_OF_FILE);
 	default:
-		std::cerr << "Unexpected character: " << currentChar << "\n";
+		std::cerr << "Unexpected character: " << current_char_ << "\n";
 		advance();
 		return Token(TokenType::INVALID);
 	}
 }
 
-Token Scanner::identifierOrKeyword() {
+Token Scanner::identifier_or_keyword() {
 	std::string result;
-	while(std::isalnum(currentChar) || currentChar == '_') {
-		result += currentChar;
+
+	while(std::isalnum(current_char_) || current_char_ == '_') {
+		result += current_char_;
 		advance();
 	}
 
 	if(keywords.find(result) != keywords.end()) {
 		return Token(keywords[result], result);
 	}
+
 	return Token(TokenType::IDENTIFIER, result);
 }
 
 Token Scanner::number() {
 	std::string result;
-	while(std::isdigit(currentChar)) {
-		result += currentChar;
+
+	while(std::isdigit(current_char_)) {
+		result += current_char_;
 		advance();
 	}
+
 	return Token(TokenType::NUMBER, result);
 }
 
-Token Scanner::singleCharToken(TokenType type) {
-	char value = currentChar;
+Token Scanner::single_char_token(TokenType type) {
+	char value = current_char_;
 	advance();
 	return Token(type, std::string(1, value));
 }
 
-Token Scanner::compareToken() {
-	char first = currentChar;
+Token Scanner::compare_token() {
+	char first = current_char_;
 	advance();
 
-	if(currentChar == '=') {
+	if(current_char_ == '=') {
 		advance();
 		return Token(TokenType::COMPARE, std::string(1, first) + "=");
 	} else {
