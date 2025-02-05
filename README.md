@@ -1,10 +1,10 @@
-# Input
+# Sample input
 	int foo < int arg > {
 		int val;
 	}
 
 
-# Output
+# Sample Output
 	[INFO] Using production rule "Type identifier < ArgList > CompoundStmt"
 	[INFO] Using production rule "int"
 	[INFO] Matched int
