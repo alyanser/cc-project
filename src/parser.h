@@ -402,7 +402,13 @@ public:
 				const auto terminal = std::get<Terminal>(top);
 
 				if(token.type == TokenType::IDENTIFIER || to_string(terminal) == token.value) {
-					std::cout << "[INFO] Matched " << to_string(terminal) << "\n";
+
+					if(token.type == TokenType::IDENTIFIER) {
+						std::cout << "[INFO] Matched identifier '" << token.value << "'\n";
+					} else {
+						std::cout << "[INFO] Matched " << to_string(terminal) << "\n";
+					}
+
 					token = scanner.nextToken();
 					continue;
 				}
@@ -414,6 +420,7 @@ public:
 			const auto non_terminal = std::get<Non_terminal>(top);
 
 			auto production = parse_table_[non_terminal][to_terminal(token)];
+			std::cout << "[INFO] Using production rule \"" << production << "\"\n";
 
 			if(production.empty()) {
 				std::cout << "[Warning] No production found for " << to_string(non_terminal) << " and " << token.value << '\n';
@@ -502,8 +509,7 @@ private:
 		parse_table_[TYPE][T_INT] = "int";
 		parse_table_[TYPE][T_FLOAT] = "float";
 
-		parse_table_[IDENT_LIST][T_IDENTIFIER] = "identifier , IdentList";
-		parse_table_[IDENT_LIST][T_EPSILON] = "identifier";
+		parse_table_[IDENT_LIST][T_IDENTIFIER] = "identifier";
 
 		parse_table_[STMT][T_FOR] = "ForStmt";
 		parse_table_[STMT][T_LOOP] = "LoopStmt";

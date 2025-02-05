@@ -29,4 +29,6 @@ int main(int argc, char ** argv) {
 	Scanner scanner(input);
 	Parser parser;
 	parser.parse(scanner);
+
+	std::cout << "\nParsing sucessful!\n";
 }
