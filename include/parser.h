@@ -119,10 +119,12 @@ inline std::string to_string(const Terminal t) {
 		case T_LOOP: return "loop";
 		case T_EPSILON: return "ϵ";
 		case T_END: return "$";
-	}
 
-	std::cerr << "Error: Invalid terminal\n";
-	std::exit(1);
+		default : {
+			std::cerr << "Error: Invalid terminal\n";
+			std::exit(1);
+		}
+	}
 }
 
 inline std::string to_string(const Non_terminal t) {
@@ -148,10 +150,12 @@ inline std::string to_string(const Non_terminal t) {
 		case STMT_LIST: return "StmtList";
 		case TERM: return "Term";
 		case TYPE: return "Type";
-	}
 
-	std::cerr << "Error: Invalid non-terminal\n";
-	std::exit(1);
+		default : {
+			std::cerr << "Error: Invalid non-terminal\n";
+			std::exit(1);
+		}
+	}
 }
 
 /*
