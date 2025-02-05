@@ -30,8 +30,7 @@ Token Scanner::nextToken() {
 	case '<':
 		return compare_token();
 	case '>':
-		advance();
-		return Token(TokenType::GT);
+		return compare_token();
 	case '+':
 		return single_char_token(TokenType::PLUS);
 	case '-':
@@ -53,8 +52,7 @@ Token Scanner::nextToken() {
 	case ')':
 		return single_char_token(TokenType::RPAREN);
 	case '=':
-		advance();
-		return Token(TokenType::EQUAL);
+		return compare_token();
 	case '\0':
 		return Token(TokenType::END_OF_FILE);
 	default:
