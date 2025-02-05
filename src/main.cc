@@ -27,5 +27,6 @@ int main(int argc, char ** argv) {
 	}();
 
 	Scanner scanner(input);
-	parse(scanner);
+	Parser parser;
+	parser.parse(scanner);
 }
